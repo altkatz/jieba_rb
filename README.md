@@ -23,22 +23,22 @@ Or install it yourself as:
 
 ## Word segment Usage
 
-Mix Segment (HMM with Max Prob, default):
+Mix Segment mode (HMM with Max Prob, default):
 
 	require 'jieba_rb'
-    seg = JiebaRb::Segment.new type: :mix
+    seg = JiebaRb::Segment.new  # equivalent to "JiebaRb::Segment.new mode: :mix"
     words = seg.cut "令狐冲是云计算行业的专家"
     # 令狐冲 是 云 计算 行业 的 专家
 
-Mix Segment with user-defined dictionary:
+Mix Segment mode with user-defined dictionary:
 
-    seg = JiebaRb::Segment.new type: :mix, user_dict: "ext/cppjieba/dict/user.dict.utf8"
+    seg = JiebaRb::Segment.new mode: :mix, user_dict: "ext/cppjieba/dict/user.dict.utf8"
     words = seg.cut "令狐冲是云计算行业的专家"
     # 令狐冲 是 云计算 行业 的 专家
 
-HMM or Max probability (mp) Segment: 
+HMM or Max probability (mp) Segment mode:
 
-    seg = JiebaRb::Segment.new type: :hmm # or  type: :mp 
+    seg = JiebaRb::Segment.new mode: :hmm # or  mode: :mp
     words = seg.cut "令狐冲是云计算行业的专家"
 
 

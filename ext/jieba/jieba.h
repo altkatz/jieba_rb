@@ -3,6 +3,7 @@
 
 #include <ruby.h>
 #include <segment.h>
+#include <keyword.h>
 
 extern VALUE mJieba;
 

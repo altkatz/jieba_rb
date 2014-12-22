@@ -6,4 +6,5 @@ void Init_jieba()
     mJieba = rb_define_module("JiebaRb");
 
     Init_segment();
+    Init_keyword();
 }

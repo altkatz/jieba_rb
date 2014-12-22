@@ -18,13 +18,13 @@ class JiebaTest < Minitest::Test
   end
 
   def test_hmm_segment
-    seg = JiebaRb::Segment.new type: :hmm
+    seg = JiebaRb::Segment.new mode: :hmm
     words = seg.cut "令狐冲是云计算行业的专家"
     assert_equal %w(令狐冲 是 云计算 行业 的 专家), words
   end
 
   def test_max_prob_segment
-    seg = JiebaRb::Segment.new type: :mp
+    seg = JiebaRb::Segment.new mode: :mp
     words = seg.cut "令狐冲是云计算行业的专家"
     assert_equal %w(令狐冲 是 云 计算 行业 的 专家), words
   end
