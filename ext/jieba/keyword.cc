@@ -20,12 +20,12 @@ static VALUE allocate(VALUE klass)
 }
 
 static void init(VALUE self,
-                  VALUE mode_rb_sym,
-                  VALUE jieba_dict_rbs,
-                  VALUE hmm_dict_rbs,
-                  VALUE idf_rbs,
-                  VALUE stop_words_rbs,
-                  VALUE user_dict_rbs)
+                 VALUE mode_rb_sym,
+                 VALUE jieba_dict_rbs,
+                 VALUE hmm_dict_rbs,
+                 VALUE idf_rbs,
+                 VALUE stop_words_rbs,
+                 VALUE user_dict_rbs)
 {
     Keyword * keyword;
     Data_Get_Struct(self, Keyword, keyword);

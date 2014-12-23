@@ -41,6 +41,24 @@ HMM or Max probability (mp) Segment mode:
     seg = JiebaRb::Segment.new mode: :hmm # or  mode: :mp
     words = seg.cut "令狐冲是云计算行业的专家"
 
+## Keyword Extractor Usage
+
+* only support TF-IDF currently
+
+```
+    keyword = JiebaRb::Keyword.new
+    keywords_weights = keyword.extract "我是拖拉机学院手扶拖拉机专业的。不用多久，我就会升职加薪，当上CEO，走上人生巅峰。", 5
+
+                  [
+                  ["CEO", 11.739204307083542],
+                  ["升职", 10.8561552143],
+                  ["加薪", 10.642581114],
+                  ["手扶拖拉机", 10.0088573539],
+                  ["巅峰", 9.49395840471]
+                  ]
+```
+
+
 
 ## Contributing
 
