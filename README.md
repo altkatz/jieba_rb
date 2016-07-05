@@ -41,6 +41,22 @@ HMM or Max probability (mp) Segment mode:
     seg = JiebaRb::Segment.new mode: :hmm # or  mode: :mp
     words = seg.cut "令狐冲是云计算行业的专家"
 
+## Word tagging Usage
+
+Default tagging:
+
+	require 'jieba_rb'
+    tagging = JiebaRb::Tagging.new
+    pairs = tagging.tag "我是蓝翔技工拖拉机学院手扶拖拉机专业的。"
+    # [{"我"=>"r"}, {"是"=>"v"}, {"蓝翔"=>"x"}, {"技工"=>"n"}, {"拖拉机"=>"n"}, {"学院"=>"n"}, {"手扶拖拉机"=>"n"}, {"专业"=>"n"}, {"的"=>"uj"}, {"。"=>"x"}]
+
+Tagging with user-defined dictionary:
+
+	require 'jieba_rb'
+    tagging = JiebaRb::Tagging.new user_dict: :default
+    pairs = tagging.tag "我是蓝翔技工拖拉机学院手扶拖拉机专业的。"
+    # [{"我"=>"r"}, {"是"=>"v"}, {"蓝翔"=>"nz"}, {"技工"=>"n"}, {"拖拉机"=>"n"}, {"学院"=>"n"}, {"手扶拖拉机"=>"n"}, {"专业"=>"n"}, {"的"=>"uj"}, {"。"=>"x"}]
+
 ## Keyword Extractor Usage
 
 * only support TF-IDF currently
