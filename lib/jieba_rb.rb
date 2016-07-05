@@ -52,4 +52,15 @@ module JiebaRb
     end
   end
 
+  class Tagging
+    private :_init
+    def initialize opts = {}
+      jieba_dict = opts[:jieba_dict] || DEFAULT_JIEBA_DICT
+      hmm_dict = opts[:hmm_dict] || DEFAULT_HMM_DICT
+      user_dict = opts[:user_dict] || ""
+      user_dict = DEFAULT_USER_DICT if user_dict == :default
+
+      _init jieba_dict, hmm_dict, user_dict
+    end
+  end
 end
