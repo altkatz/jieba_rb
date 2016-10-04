@@ -7,4 +7,5 @@ void Init_jieba()
 
     Init_segment();
     Init_keyword();
+    Init_tagging();
 }
