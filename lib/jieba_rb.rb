@@ -46,7 +46,7 @@ module JiebaRb
       stop_words_path = opts[:stop_words] || DEFAULT_STOP_WORDS
 
       user_dict = opts[:user_dict] || ""
-      user_dict = USER_DICT_FILE if user_dict == :default
+      user_dict = DEFAULT_USER_DICT if user_dict == :default
 
       _init mode, jieba_dict, hmm_dict, idf_path, stop_words_path, user_dict
     end
