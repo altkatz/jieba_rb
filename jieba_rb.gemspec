@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
   spec.summary       = "cppjieba binding for ruby"
   spec.description   = "cppjieba binding for ruby"
   spec.homepage = "https://github.com/altkatz/jieba_rb"
-  spec.required_ruby_version = ">=1.9.2"
+  spec.required_ruby_version = ">=2.2.5"
   spec.license       = "MIT"
   spec.extensions = ["ext/jieba/extconf.rb"]
 
