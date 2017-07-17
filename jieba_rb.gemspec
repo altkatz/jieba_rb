@@ -13,7 +13,7 @@ Gem::Specification.new do |spec|
   spec.homepage = "https://github.com/altkatz/jieba_rb"
   spec.required_ruby_version = ">=2.2.5"
   spec.license       = "MIT"
-  spec.extensions = ["ext/jieba/extconf.rb"]
+  spec.extensions = ["ext/jieba_rb/extconf.rb"]
 
   spec.files         = `git ls-files -z`.split("\x0")
   relative_path = File.expand_path("../", __FILE__) + '/'

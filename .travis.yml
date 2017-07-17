@@ -14,3 +14,13 @@ matrix:
   allow_failures:
     - rvm: ruby-head
     - rvm: rbx-2
+
+
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - gcc-4.9
+    - g++-4.9
+
