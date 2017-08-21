@@ -5,7 +5,7 @@
 #include <MixSegment.hpp>
 
 static rb_encoding* u8_enc;
-
+VALUE cSegment;
 struct SegWrapper{
     CppJieba::ISegment * segp;
 };
@@ -14,21 +14,14 @@ static void seg_free(void *p){
     delete (SegWrapper*)p;
 }
 
-static VALUE allocate(VALUE klass)
-{
-    SegWrapper* seg_wrapper = new SegWrapper();
-    return Data_Wrap_Struct(klass, NULL, seg_free, seg_wrapper);
-}
-
 static void seg_init(VALUE self,
                      VALUE type_rb_sym,
                      VALUE jieba_dict_rbs,
                      VALUE hmm_dict_rbs,
                      VALUE user_dict_rbs)
 {
-    SegWrapper* seg_wrapper;
-    Data_Get_Struct(self, SegWrapper, seg_wrapper);
-
+    SegWrapper* seg_wrapper = new SegWrapper();
+    Data_Wrap_Struct(cSegment, NULL, seg_free, seg_wrapper);
     Check_Type(jieba_dict_rbs, T_STRING);
     Check_Type(hmm_dict_rbs, T_STRING);
     Check_Type(user_dict_rbs, T_STRING);
@@ -78,9 +71,8 @@ static VALUE seg_cut(VALUE self, VALUE text_rbs)
 extern "C" {
     void Init_segment()
     {
-        VALUE cSegment = rb_define_class_under(mJieba, "Segment", rb_cObject);
+        cSegment = rb_define_class_under(mJieba, "Segment", rb_cObject);
         u8_enc = rb_utf8_encoding();
-        rb_define_alloc_func(cSegment, allocate);
         DEF(cSegment, "_init",seg_init,4);
         DEF(cSegment, "cut",seg_cut,1);
     }

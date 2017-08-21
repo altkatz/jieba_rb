@@ -3,7 +3,7 @@
 #include <PosTagger.hpp>
 
 static rb_encoding* u8_enc;
-
+VALUE cTagging;
 struct Tagging{
     CppJieba::PosTagger * p;
 };
@@ -13,20 +13,13 @@ static void tagger_free(void *p){
     delete (Tagging*)p;
 }
 
-static VALUE alloc(VALUE klass)
-{
-    Tagging * tagging = new Tagging();
-    return Data_Wrap_Struct(klass, NULL, tagger_free, tagging);
-}
-
 static void init(VALUE self,
                  VALUE jieba_dict_rbs,
                  VALUE hmm_dict_rbs,
                  VALUE user_dict_rbs)
 {
-    Tagging *tagging;
-    Data_Get_Struct(self, Tagging, tagging);
-
+    Tagging * tagging = new Tagging();
+    Data_Wrap_Struct(cTagging, NULL, tagger_free, tagging);
     Check_Type(jieba_dict_rbs, T_STRING);
     Check_Type(hmm_dict_rbs, T_STRING);
     Check_Type(user_dict_rbs, T_STRING);
@@ -65,9 +58,8 @@ static VALUE tag(VALUE self, VALUE text_rbs)
 extern "C" {
     void Init_tagging()
     {
-        VALUE cTagging = rb_define_class_under(mJieba, "Tagging", rb_cObject);
+        cTagging = rb_define_class_under(mJieba, "Tagging", rb_cObject);
         u8_enc = rb_utf8_encoding();
-        rb_define_alloc_func(cTagging, alloc);
         DEF(cTagging, "_init",init,3);
         DEF(cTagging, "tag",tag,1);
     }

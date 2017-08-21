@@ -3,7 +3,7 @@
 #include <KeywordExtractor.hpp>
 
 static rb_encoding* u8_enc;
-
+VALUE cKeyword;
 struct Keyword{
     CppJieba::KeywordExtractor * p;
 };
@@ -11,12 +11,6 @@ struct Keyword{
 static void keyword_free(void *p){
     delete ((Keyword*) p) -> p;
     delete (Keyword*)p;
-}
-
-static VALUE allocate(VALUE klass)
-{
-    Keyword * keyword = new Keyword();
-    return Data_Wrap_Struct(klass, NULL, keyword_free, keyword);
 }
 
 static void init(VALUE self,
@@ -27,9 +21,8 @@ static void init(VALUE self,
                  VALUE stop_words_rbs,
                  VALUE user_dict_rbs)
 {
-    Keyword * keyword;
-    Data_Get_Struct(self, Keyword, keyword);
-
+    Keyword * keyword = new Keyword();
+    Data_Wrap_Struct(cKeyword, NULL, keyword_free, keyword);
     Check_Type(jieba_dict_rbs, T_STRING);
     Check_Type(hmm_dict_rbs, T_STRING);
     Check_Type(user_dict_rbs, T_STRING);
@@ -88,9 +81,8 @@ static VALUE extract(VALUE self, VALUE text_rbs, VALUE topN)
 extern "C" {
     void Init_keyword()
     {
-        VALUE cKeyword = rb_define_class_under(mJieba, "Keyword", rb_cObject);
+        cKeyword = rb_define_class_under(mJieba, "Keyword", rb_cObject);
         u8_enc = rb_utf8_encoding();
-        rb_define_alloc_func(cKeyword, allocate);
         DEF(cKeyword, "_init", init, 6);
         DEF(cKeyword, "extract",extract,2);
     }
