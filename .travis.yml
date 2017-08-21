@@ -6,7 +6,6 @@ rvm:
   - 2.2.5
   - 2.3.1
   - ruby-head
-  - rbx-2
 
 before_install:
   - gem install bundler
@@ -16,4 +15,4 @@ before_script: rake compile
 matrix:
   allow_failures:
     - rvm: ruby-head
-    - rvm: rbx-2
+    - rvm: rbx-3.71
