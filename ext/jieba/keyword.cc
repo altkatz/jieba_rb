@@ -22,7 +22,9 @@ static void init(VALUE self,
                  VALUE user_dict_rbs)
 {
     Keyword * keyword = new Keyword();
-    Data_Wrap_Struct(cKeyword, NULL, keyword_free, keyword);
+    VALUE ret_instance;
+    ret_instance = Data_Wrap_Struct(cKeyword, NULL, keyword_free, keyword);
+    rb_iv_set(self, "@_wrapper", ret_instance);
     Check_Type(jieba_dict_rbs, T_STRING);
     Check_Type(hmm_dict_rbs, T_STRING);
     Check_Type(user_dict_rbs, T_STRING);
@@ -50,6 +52,7 @@ static VALUE extract(VALUE self, VALUE text_rbs, VALUE topN)
     Check_Type(topN, T_FIXNUM);
     int top_n = NUM2INT(topN);
 
+    self = rb_iv_get(self, "@_wrapper");
     Keyword * keyword;
     Data_Get_Struct(self, Keyword, keyword);
 

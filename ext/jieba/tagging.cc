@@ -19,7 +19,9 @@ static void init(VALUE self,
                  VALUE user_dict_rbs)
 {
     Tagging * tagging = new Tagging();
-    Data_Wrap_Struct(cTagging, NULL, tagger_free, tagging);
+    VALUE ret_instance;
+    ret_instance = Data_Wrap_Struct(cTagging, NULL, tagger_free, tagging);
+    rb_iv_set(self, "@_wrapper", ret_instance);
     Check_Type(jieba_dict_rbs, T_STRING);
     Check_Type(hmm_dict_rbs, T_STRING);
     Check_Type(user_dict_rbs, T_STRING);
@@ -35,7 +37,7 @@ static VALUE tag(VALUE self, VALUE text_rbs)
 {
     Check_Type(text_rbs, T_STRING);
     std::string text = StringValueCStr(text_rbs);
-
+    self = rb_iv_get(self, "@_wrapper");
     Tagging *tagging;
     Data_Get_Struct(self, Tagging, tagging);
 

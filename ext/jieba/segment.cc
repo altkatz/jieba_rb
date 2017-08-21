@@ -21,7 +21,9 @@ static void seg_init(VALUE self,
                      VALUE user_dict_rbs)
 {
     SegWrapper* seg_wrapper = new SegWrapper();
-    Data_Wrap_Struct(cSegment, NULL, seg_free, seg_wrapper);
+    VALUE ret_instance;
+    ret_instance = Data_Wrap_Struct(cSegment, NULL, seg_free, seg_wrapper);
+    rb_iv_set(self, "@_wrapper", ret_instance);
     Check_Type(jieba_dict_rbs, T_STRING);
     Check_Type(hmm_dict_rbs, T_STRING);
     Check_Type(user_dict_rbs, T_STRING);
@@ -49,7 +51,7 @@ static VALUE seg_cut(VALUE self, VALUE text_rbs)
 {
     Check_Type(text_rbs, T_STRING);
     std::string text = StringValueCStr(text_rbs);
-
+    self = rb_iv_get(self, "@_wrapper");
     SegWrapper* seg_wrapper;
     Data_Get_Struct(self, SegWrapper, seg_wrapper);
 
