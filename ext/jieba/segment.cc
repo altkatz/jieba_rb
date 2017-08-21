@@ -14,7 +14,7 @@ static void seg_free(void *p){
     delete (SegWrapper*)p;
 }
 
-static void seg_init(VALUE self,
+static VALUE seg_init(VALUE self,
                      VALUE type_rb_sym,
                      VALUE jieba_dict_rbs,
                      VALUE hmm_dict_rbs,
@@ -51,6 +51,7 @@ static void seg_init(VALUE self,
         seg_wrapper->segp = new CppJieba::MPSegment(jieba_dict);
     }
     LogDebug("seg_constructor_done");
+    return Qnil;
 }
 
 static VALUE seg_cut(VALUE self, VALUE text_rbs)

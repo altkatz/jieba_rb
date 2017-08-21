@@ -13,7 +13,7 @@ static void tagger_free(void *p){
     delete (Tagging*)p;
 }
 
-static void init(VALUE self,
+static VALUE init(VALUE self,
                  VALUE jieba_dict_rbs,
                  VALUE hmm_dict_rbs,
                  VALUE user_dict_rbs)
@@ -34,6 +34,7 @@ static void init(VALUE self,
     LogDebug("convert_str_done");
     tagging->p = new CppJieba::PosTagger(jieba_dict, hmm_dict, user_dict);
     LogDebug("cpp_constructor_done");
+    return Qnil;
 }
 
 static VALUE tag(VALUE self, VALUE text_rbs)

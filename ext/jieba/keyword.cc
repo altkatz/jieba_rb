@@ -13,7 +13,7 @@ static void keyword_free(void *p){
     delete (Keyword*)p;
 }
 
-static void init(VALUE self,
+static VALUE init(VALUE self,
                  VALUE mode_rb_sym,
                  VALUE jieba_dict_rbs,
                  VALUE hmm_dict_rbs,
@@ -47,6 +47,7 @@ static void init(VALUE self,
         keyword->p = new CppJieba::KeywordExtractor(jieba_dict, hmm_dict, idf, stop_words);
     }
     LogDebug("kw_cpp_constructor_done");
+    return Qnil;
 }
 
 static VALUE extract(VALUE self, VALUE text_rbs, VALUE topN)
