@@ -38,12 +38,14 @@ static void init(VALUE self,
 
 static VALUE tag(VALUE self, VALUE text_rbs)
 {
+    LogDebug("begin_instance");
     Check_Type(text_rbs, T_STRING);
     std::string text = StringValueCStr(text_rbs);
     self = rb_iv_get(self, "@_wrapper");
     Tagging *tagging;
     Data_Get_Struct(self, Tagging, tagging);
 
+    LogDebug("done_instance_get_struct");
     std::vector<std::pair<std::string, std::string>> pairs;
     tagging->p->tag(text, pairs);
 
@@ -55,6 +57,7 @@ static VALUE tag(VALUE self, VALUE text_rbs)
         rb_ary_push(arr, pair);
 
     }
+    LogDebug("done_instance");
     return arr;
 }
 

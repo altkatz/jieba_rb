@@ -55,12 +55,14 @@ static void seg_init(VALUE self,
 
 static VALUE seg_cut(VALUE self, VALUE text_rbs)
 {
+    LogDebug("begin_instance");
     Check_Type(text_rbs, T_STRING);
     std::string text = StringValueCStr(text_rbs);
     self = rb_iv_get(self, "@_wrapper");
     SegWrapper* seg_wrapper;
     Data_Get_Struct(self, SegWrapper, seg_wrapper);
 
+    LogDebug("done_instance_get_struct");
     std::vector<std::string> words;
     seg_wrapper->segp->cut(text, words);
 
@@ -71,6 +73,7 @@ static VALUE seg_cut(VALUE self, VALUE text_rbs)
         rb_ary_push(arr, rb_enc_str_new((*j).c_str(), (*j).length(), u8_enc));
 
     }
+    LogDebug("done_instance");
     return arr;
 }
 

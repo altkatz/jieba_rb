@@ -51,6 +51,7 @@ static void init(VALUE self,
 
 static VALUE extract(VALUE self, VALUE text_rbs, VALUE topN)
 {
+    LogDebug("begin_instance");
     Check_Type(text_rbs, T_STRING);
     std::string text = StringValueCStr(text_rbs);
 
@@ -61,6 +62,7 @@ static VALUE extract(VALUE self, VALUE text_rbs, VALUE topN)
     Keyword * keyword;
     Data_Get_Struct(self, Keyword, keyword);
 
+    LogDebug("done_instance_get_struct");
     std::vector<std::pair<std::string, double> > top_words;
 
     if (keyword->p->extract(text, top_words, top_n))
@@ -76,6 +78,7 @@ static VALUE extract(VALUE self, VALUE text_rbs, VALUE topN)
             rb_ary_push(arr, inner_arr);
 
         }
+        LogDebug("done_instance");
         return arr;
     }
     else
