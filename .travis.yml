@@ -1,8 +1,6 @@
 language: ruby
+dist: trusty
 rvm:
   - 2.3.1
   - rbx-3.71
-before_install:
-  - gem install bundler
-
 before_script: rake compile
