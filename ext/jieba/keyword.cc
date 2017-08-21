@@ -22,26 +22,31 @@ static void init(VALUE self,
                  VALUE user_dict_rbs)
 {
     Keyword * keyword = ALLOC(Keyword);
+    LogDebug("kw_rb_alloc_done");
     VALUE ret_instance;
     ret_instance = Data_Wrap_Struct(cKeyword, NULL, keyword_free, keyword);
     rb_iv_set(self, "@_wrapper", ret_instance);
+    LogDebug("kw_iv_set_done");
     Check_Type(jieba_dict_rbs, T_STRING);
     Check_Type(hmm_dict_rbs, T_STRING);
     Check_Type(user_dict_rbs, T_STRING);
     Check_Type(idf_rbs, T_STRING);
     Check_Type(stop_words_rbs, T_STRING);
 
+    LogDebug("kw_checktype_done");
     std::string jieba_dict = StringValueCStr(jieba_dict_rbs);
     std::string hmm_dict = StringValueCStr(hmm_dict_rbs);
     std::string idf = StringValueCStr(idf_rbs);
     std::string stop_words = StringValueCStr(stop_words_rbs);
     std::string user_dict = StringValueCStr(user_dict_rbs);
 
+    LogDebug("kw_convert_str_done");
     ID mode = SYM2ID(mode_rb_sym);
     if ( mode == rb_intern("tf_idf") )
     {
         keyword->p = new CppJieba::KeywordExtractor(jieba_dict, hmm_dict, idf, stop_words);
     }
+    LogDebug("kw_cpp_constructor_done");
 }
 
 static VALUE extract(VALUE self, VALUE text_rbs, VALUE topN)

@@ -20,7 +20,10 @@ static void seg_init(VALUE self,
                      VALUE hmm_dict_rbs,
                      VALUE user_dict_rbs)
 {
+    LogDebug("seg_init");
     SegWrapper* seg_wrapper = ALLOC(SegWrapper);
+
+    LogDebug("seg_rb_alloc_done");
     VALUE ret_instance;
     ret_instance = Data_Wrap_Struct(cSegment, NULL, seg_free, seg_wrapper);
     rb_iv_set(self, "@_wrapper", ret_instance);
@@ -28,10 +31,12 @@ static void seg_init(VALUE self,
     Check_Type(hmm_dict_rbs, T_STRING);
     Check_Type(user_dict_rbs, T_STRING);
 
+    LogDebug("seg_rb_check_type_done");
     std::string jieba_dict = StringValueCStr(jieba_dict_rbs);
     std::string hmm_dict = StringValueCStr(hmm_dict_rbs);
     std::string user_dict = StringValueCStr(user_dict_rbs);
 
+    LogDebug("seg_convert_str_done");
     ID type = SYM2ID(type_rb_sym);
     if ( type == rb_intern("mix") )
     {
@@ -45,6 +50,7 @@ static void seg_init(VALUE self,
     {
         seg_wrapper->segp = new CppJieba::MPSegment(jieba_dict);
     }
+    LogDebug("seg_constructor_done");
 }
 
 static VALUE seg_cut(VALUE self, VALUE text_rbs)
