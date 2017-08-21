@@ -1,18 +1,8 @@
 language: ruby
 rvm:
-  - 1.9.3
-  - 2.0.0
-  - 2.1.10
-  - 2.2.5
   - 2.3.1
-  - ruby-head
-
+  - rbx-3.71
 before_install:
   - gem install bundler
 
 before_script: rake compile
-
-matrix:
-  allow_failures:
-    - rvm: ruby-head
-    - rvm: rbx-3.71
