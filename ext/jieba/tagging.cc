@@ -18,19 +18,22 @@ static void init(VALUE self,
                  VALUE hmm_dict_rbs,
                  VALUE user_dict_rbs)
 {
-    Tagging * tagging = new Tagging();
+    Tagging * tagging = ALLOC(Tagging);
     VALUE ret_instance;
+    LogDebug("rb_alloc_done");
     ret_instance = Data_Wrap_Struct(cTagging, NULL, tagger_free, tagging);
     rb_iv_set(self, "@_wrapper", ret_instance);
+    LogDebug("iv_set_done");
     Check_Type(jieba_dict_rbs, T_STRING);
     Check_Type(hmm_dict_rbs, T_STRING);
     Check_Type(user_dict_rbs, T_STRING);
-
+    LogDebug("check_type_done");
     std::string jieba_dict = StringValueCStr(jieba_dict_rbs);
     std::string hmm_dict = StringValueCStr(hmm_dict_rbs);
     std::string user_dict = StringValueCStr(user_dict_rbs);
-
+    LogDebug("convert_str_done");
     tagging->p = new CppJieba::PosTagger(jieba_dict, hmm_dict, user_dict);
+    LogDebug("cpp_constructor_done");
 }
 
 static VALUE tag(VALUE self, VALUE text_rbs)

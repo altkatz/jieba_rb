@@ -20,7 +20,7 @@ static void seg_init(VALUE self,
                      VALUE hmm_dict_rbs,
                      VALUE user_dict_rbs)
 {
-    SegWrapper* seg_wrapper = new SegWrapper();
+    SegWrapper* seg_wrapper = ALLOC(SegWrapper);
     VALUE ret_instance;
     ret_instance = Data_Wrap_Struct(cSegment, NULL, seg_free, seg_wrapper);
     rb_iv_set(self, "@_wrapper", ret_instance);

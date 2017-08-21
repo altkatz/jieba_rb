@@ -21,7 +21,7 @@ static void init(VALUE self,
                  VALUE stop_words_rbs,
                  VALUE user_dict_rbs)
 {
-    Keyword * keyword = new Keyword();
+    Keyword * keyword = ALLOC(Keyword);
     VALUE ret_instance;
     ret_instance = Data_Wrap_Struct(cKeyword, NULL, keyword_free, keyword);
     rb_iv_set(self, "@_wrapper", ret_instance);
