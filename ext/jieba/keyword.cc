@@ -45,7 +45,7 @@ static void init(VALUE self,
     ID mode = SYM2ID(mode_rb_sym);
     if ( mode == rb_intern("tf_idf") )
     {
-        keyword->p = new CppJieba::KeywordExtractor(jieba_dict, hmm_dict, idf, stop_words);
+        keyword->p = new CppJieba::KeywordExtractor(jieba_dict, hmm_dict, idf, stop_words, user_dict);
     }
 }
 
