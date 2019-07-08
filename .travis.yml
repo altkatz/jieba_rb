@@ -1,19 +1,6 @@
 language: ruby
+dist: trusty
 rvm:
-  - 1.9.3
-  - 2.0.0
-  - 2.1.10
-  - 2.2.5
   - 2.3.1
-  - ruby-head
-  - rbx-2
-
-before_install:
-  - gem install bundler
-
+  - rbx-3.71
 before_script: rake compile
-
-matrix:
-  allow_failures:
-    - rvm: ruby-head
-    - rvm: rbx-2

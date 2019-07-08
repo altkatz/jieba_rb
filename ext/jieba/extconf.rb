@@ -16,8 +16,8 @@ LIB_DIRS = [
 
 dir_config('cppjieba_src', HEADER_DIRS, LIB_DIRS)
 
-CONFIG["CXXFLAGS"] += " -std=c++0x -O3"
-$CXXFLAGS = "#{$CXXFLAGS} -std=c++0x -O3"
+CONFIG["CXXFLAGS"] += " -g -std=c++0x"
+$CXXFLAGS = "#{$CXXFLAGS} -g -std=c++0x"
 create_makefile 'jieba'
 # respect header changes
 headers = Dir.glob('*.{hpp,h}').join ' '

@@ -5,7 +5,7 @@
 #include <MixSegment.hpp>
 
 static rb_encoding* u8_enc;
-
+VALUE cSegment;
 struct SegWrapper{
     CppJieba::ISegment * segp;
 };
@@ -14,29 +14,29 @@ static void seg_free(void *p){
     delete (SegWrapper*)p;
 }
 
-static VALUE allocate(VALUE klass)
-{
-    SegWrapper* seg_wrapper = new SegWrapper();
-    return Data_Wrap_Struct(klass, NULL, seg_free, seg_wrapper);
-}
-
-static void seg_init(VALUE self,
+static VALUE seg_init(VALUE self,
                      VALUE type_rb_sym,
                      VALUE jieba_dict_rbs,
                      VALUE hmm_dict_rbs,
                      VALUE user_dict_rbs)
 {
-    SegWrapper* seg_wrapper;
-    Data_Get_Struct(self, SegWrapper, seg_wrapper);
+    LogDebug("seg_init");
+    SegWrapper* seg_wrapper = ALLOC(SegWrapper);
 
+    LogDebug("seg_rb_alloc_done");
+    VALUE ret_instance;
+    ret_instance = Data_Wrap_Struct(cSegment, NULL, seg_free, seg_wrapper);
+    rb_iv_set(self, "@_wrapper", ret_instance);
     Check_Type(jieba_dict_rbs, T_STRING);
     Check_Type(hmm_dict_rbs, T_STRING);
     Check_Type(user_dict_rbs, T_STRING);
 
+    LogDebug("seg_rb_check_type_done");
     std::string jieba_dict = StringValueCStr(jieba_dict_rbs);
     std::string hmm_dict = StringValueCStr(hmm_dict_rbs);
     std::string user_dict = StringValueCStr(user_dict_rbs);
 
+    LogDebug("seg_convert_str_done");
     ID type = SYM2ID(type_rb_sym);
     if ( type == rb_intern("mix") )
     {
@@ -50,16 +50,20 @@ static void seg_init(VALUE self,
     {
         seg_wrapper->segp = new CppJieba::MPSegment(jieba_dict);
     }
+    LogDebug("seg_constructor_done");
+    return Qnil;
 }
 
 static VALUE seg_cut(VALUE self, VALUE text_rbs)
 {
+    LogDebug("begin_instance");
     Check_Type(text_rbs, T_STRING);
     std::string text = StringValueCStr(text_rbs);
-
+    self = rb_iv_get(self, "@_wrapper");
     SegWrapper* seg_wrapper;
     Data_Get_Struct(self, SegWrapper, seg_wrapper);
 
+    LogDebug("done_instance_get_struct");
     std::vector<std::string> words;
     seg_wrapper->segp->cut(text, words);
 
@@ -70,6 +74,7 @@ static VALUE seg_cut(VALUE self, VALUE text_rbs)
         rb_ary_push(arr, rb_enc_str_new((*j).c_str(), (*j).length(), u8_enc));
 
     }
+    LogDebug("done_instance");
     return arr;
 }
 
@@ -78,9 +83,8 @@ static VALUE seg_cut(VALUE self, VALUE text_rbs)
 extern "C" {
     void Init_segment()
     {
-        VALUE cSegment = rb_define_class_under(mJieba, "Segment", rb_cObject);
+        cSegment = rb_define_class_under(mJieba, "Segment", rb_cObject);
         u8_enc = rb_utf8_encoding();
-        rb_define_alloc_func(cSegment, allocate);
         DEF(cSegment, "_init",seg_init,4);
         DEF(cSegment, "cut",seg_cut,1);
     }
